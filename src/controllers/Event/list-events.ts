@@ -1,19 +1,20 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
 import { handleError, response, throwNoContent } from '../../utils/formatted-response';
 import { ListEventsQueryParams } from '../../interfaces/Event/create-events';
 import { getResourceParams } from '../../utils/resource-params';
 import { SortOrderEnum } from '../../utils/enums';
+import { ListEventsQP } from '../../queries/Event';
 
 export const listEvents = async (req: Request<{}, {}, {}, ListEventsQP>, res: Response) => {
 	try {
+		const prisma = new PrismaClient();
 		// validate query params
 		const { page, pageSize, actionId, actorId, search, targetId } = getResourceParams<ListEventsQP>(
 			req.query,
 			Object.values(ListEventsQueryParams)
 		);
-		
+
 		// filters
 		const whereClause = {
 			actorId,
