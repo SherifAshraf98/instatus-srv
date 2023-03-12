@@ -46,6 +46,13 @@ export const throwInternalServerError = (message?: string): never => {
 	};
 };
 
+export const throwNoContent = (message?: string): never => {
+	throw {
+		statusCode: 204,
+		customMessage: message ?? 'No Content',
+	};
+};
+
 export const response = <T = Record<string, any>[] | Record<string, any>>(
 	data: T,
 	page?: number,
