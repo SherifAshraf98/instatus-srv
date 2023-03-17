@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { handleError, response, throwNoContent } from '../../utils/formatted-response';
 import { ListEventsQueryParams } from '../../interfaces/Event/create-events';
 import { getResourceParams } from '../../utils/resource-params';
@@ -16,16 +16,21 @@ export const listEvents = async (req: Request<{}, {}, {}, ListEventsQP>, res: Re
 		);
 
 		// filters
-		const whereClause = {
+		const whereClause: Prisma.eventsWhereInput = {
 			actorId,
 			targetId,
 			type: actionId,
 			OR: [
 				{
-					actor: { OR: [{ name: { contains: search } }, { email: { contains: search } }] },
+					actor: {
+						OR: [
+							{ name: { contains: search, mode: 'insensitive' } },
+							{ email: { contains: search, mode: 'insensitive' } },
+						],
+					},
 				},
 				{
-					eventTypes: { id: { contains: search } },
+					eventTypes: { id: { contains: search, mode: 'insensitive' } },
 				},
 			],
 		};
