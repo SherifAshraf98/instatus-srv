@@ -22,12 +22,12 @@ model eventTypes {
 }
 
 model events {
-  id                           Int        @id @default(autoincrement())
-  actorId                      Int        @default(autoincrement())
-  targetId                     Int        @default(autoincrement())
-  type                         String
-  createdAt                    DateTime   @default(now()) @db.Timestamp(6)
-  actor                        users      @relation("events_actorIdTousers", fields: [actorId], references: [id])
-  target                       users      @relation("events_targetIdTousers", fields: [targetId], references: [id])
-  eventTypes                   eventTypes @relation(fields: [type], references: [id])
+  id         Int        @id @default(autoincrement())
+  actorId    Int        @default(autoincrement())
+  targetId   Int        @default(autoincrement())
+  type       String
+  createdAt  DateTime   @default(now()) @db.Timestamp(6)
+  actor      users      @relation("events_actorIdTousers", fields: [actorId], references: [id])
+  target     users      @relation("events_targetIdTousers", fields: [targetId], references: [id])
+  eventTypes eventTypes @relation(fields: [type], references: [id])
 }
