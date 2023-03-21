@@ -11,6 +11,7 @@ model users {
   id                            Int      @id @default(autoincrement())
   name                          String
   email                         String
+  image                         String?
   createdAt                     DateTime @default(now()) @db.Timestamp(6)
   events_events_actorIdTousers  events[] @relation("events_actorIdTousers")
   events_events_targetIdTousers events[] @relation("events_targetIdTousers")
@@ -27,6 +28,7 @@ model events {
   targetId   Int        @default(autoincrement())
   type       String
   createdAt  DateTime   @default(now()) @db.Timestamp(6)
+  metaData   Json?      @db.Json
   actor      users      @relation("events_actorIdTousers", fields: [actorId], references: [id])
   target     users      @relation("events_targetIdTousers", fields: [targetId], references: [id])
   eventTypes eventTypes @relation(fields: [type], references: [id])
